@@ -67,6 +67,10 @@ function findUserById(request, response, next) {
   if (!user) {
     return response.status(404).json({ error: "User not found!" });
   }
+
+  request.user = user;
+
+  return next();
 }
 
 app.post("/users", (request, response) => {
