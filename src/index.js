@@ -55,12 +55,18 @@ function checksTodoExists(request, response, next) {
     return response.status(404).json({ error: "Todo does not exists!" });
   }
 
-  // request.user = user;
-  // request.todo =
+  request.user = user;
+  request.todo = todo;
 }
 
 function findUserById(request, response, next) {
-  // Complete aqui
+  const { id } = request.params;
+
+  const user = users.find((user) => user.id === id);
+
+  if (!user) {
+    return response.status(404).json({ error: "User not found!" });
+  }
 }
 
 app.post("/users", (request, response) => {
