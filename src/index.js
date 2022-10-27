@@ -44,6 +44,10 @@ function checksTodoExists(request, response, next) {
   if (!user) {
     return response.status(404).json({ error: "User does not exists!" });
   }
+
+  if (!validate(idTodo)) {
+    return response.status(400).json({ error: "ID is not a UUID!" });
+  }
 }
 
 function findUserById(request, response, next) {
