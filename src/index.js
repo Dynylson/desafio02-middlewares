@@ -12,7 +12,7 @@ const users = [];
 function checksExistsUserAccount(request, response, next) {
   const { username } = request.headers;
 
-  const user = users.some((user) => user.username === username);
+  const user = users.find((user) => user.username === username);
 
   if (!user) {
     return response.status(404).json({ error: "User not found!" });
@@ -26,13 +26,15 @@ function checksExistsUserAccount(request, response, next) {
 function checksCreateTodosUserAvailability(request, response, next) {
   const { user } = request;
 
-  if (!(user.pro === false && user.todos.length < 10)) {
-    return response.status(403).json({
-      error: "You are Pro and have ten todos, you can't create todos anymore!",
-    });
+  if (user.pro) {
+    return next();
+  } else if (!user.pro && user.todos.length < 10) {
+    return next();
   }
 
-  return next();
+  return response
+    .status(403)
+    .json({ error: "You already created ten todos, update to Pro plan!" });
 }
 
 function checksTodoExists(request, response, next) {
