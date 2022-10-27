@@ -48,6 +48,15 @@ function checksTodoExists(request, response, next) {
   if (!validate(idTodo)) {
     return response.status(400).json({ error: "ID is not a UUID!" });
   }
+
+  const todo = user.todos.find((todo) => todo.id === idTodo);
+
+  if (!todo) {
+    return response.status(404).json({ error: "Todo does not exists!" });
+  }
+
+  // request.user = user;
+  // request.todo =
 }
 
 function findUserById(request, response, next) {
